@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import "./Styles/style.scss";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -127,81 +128,38 @@ const Signup = () => {
       setPicLoading(false);
       return;
     }
-  };
+    };
+    const [Mode, setMode] = useState('login');
+    
+        const toggleMode = () => {
+        var newMode = Mode === 'login' ? 'signup' : 'login';
+        setMode(newMode);
+    }
 
   return (
-    <VStack spacing="5px">
-      <FormControl id="first-name" isRequired>
-        <FormLabel color={{ base: "#fff", md: "#000" }}>Name</FormLabel>
-        <Input
-          placeholder="Enter Your Name"
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormControl>
-      <FormControl id="email" isRequired>
-        <FormLabel color={{ base: "#fff", md: "#000" }}>
-          Email Address
-        </FormLabel>
-        <Input
-          type="email"
-          placeholder="Enter Your Email Address"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel color={{ base: "#fff", md: "#000" }}>Password</FormLabel>
-        <InputGroup size="md">
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Enter Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel color={{ base: "#fff", md: "#000" }}>
-          Confirm Password
-        </FormLabel>
-        <InputGroup size="md">
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Confirm password"
-            onChange={(e) => setConfirmpassword(e.target.value)}
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
-      <FormControl id="pic">
-        <FormLabel color={{ base: "#fff", md: "#000" }}>
-          Upload your Picture
-        </FormLabel>
-        <Input
-          type="file"
-          p={1.5}
-          accept="image/*"
-          onChange={(e) => postDetails(e.target.files[0])}
-        />
-      </FormControl>
-      <Button
-        backgroundColor="#18E2AB"
-        color="#fff"
-        width="100%"
-        style={{ marginTop: 15 }}
-        onClick={submitHandler}
-        isLoading={picLoading}
-      >
-        Sign Up
-      </Button>
-    </VStack>
+    <div>
+      <div
+        className={`form-block-wrapper form-block-wrapper--is-${this.state.mode}`}
+      ></div>
+      <section className={`form-block form-block--is-${this.state.mode}`}>
+        <header className="form-block__header">
+          <h1>{this.state.mode === "login" ? "Welcome back!" : "Sign up"}</h1>
+          <div className="form-block__toggle-block">
+            <span>
+              {this.state.mode === "login" ? "Don't" : "Already"} have an
+              account? Click here &#8594;
+            </span>
+            <input
+              id="form-toggler"
+              type="checkbox"
+              onClick={()=>{toggleMode()}}
+            />
+            <label htmlFor="form-toggler"></label>
+          </div>
+        </header>
+        <LoginForm mode={this.state.mode} onSubmit={this.props.onSubmit} />
+      </section>
+    </div>
   );
 };
 

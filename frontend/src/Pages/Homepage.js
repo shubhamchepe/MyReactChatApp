@@ -6,42 +6,19 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { useEffect,useState,useRef } from "react";
 import { useHistory } from "react-router";
+import { Global, css } from "@emotion/react";
 import Login from "../components/Authentication/Login";
 import Signup from "../components/Authentication/Signup";
-import FOG from "vanta/dist/vanta.fog.min";
-import * as THREE from "three";
+
 
 function Homepage() {
-  const [vantaEffect, setVantaEffect] = useState(null);
-  const myRef = useRef(null);
   const history = useHistory();
 
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(
-        FOG({
-          el: myRef.current,
-          THREE: THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.0,
-          minWidth: 200.0,
-          highlightColor: 0xf71111,
-          midtoneColor: 0xf91111,
-          lowlightColor: 0x1b1729,
-          baseColor: 0x4a3434,
-        })
-      );
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy();
-    };
-  }, [vantaEffect]);
+
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -50,27 +27,47 @@ function Homepage() {
   }, [history]);
 
   return (
-    <Container maxW="10xl" centerContent ref={myRef}>
-      <Container maxW="xl" centerContent>
+    <>
+      <Global
+        styles={css`
+          html {
+            overflow: hidden;
+          }
+          body {
+            overflow: hidden;
+            height: 100vh;
+          }
+        `}
+      />
+      <Container maxW="10xl" centerContent>
         <Box
           d="flex"
+          flexDirection="column"
+          alignItems="center"
           justifyContent="center"
           p={3}
-          bg="white"
-          w="100%"
-          m="40px 0 15px 0"
+          bg={{ base: "#0E2036", md: "white" }} // White background on both mobile and desktop view
+          w={{ base: "100vw", md: "auto" }} // Full width on mobile view, auto width on desktop view
+          minH={{ base: "100vh", md: "auto" }} // Full height on mobile view, auto height on desktop view
+          m={{ base: "10px 0 10px 0", md: "40px 0 15px 0" }} // Adjust margins for different screen sizes
           borderRadius="lg"
-          borderWidth="1px"
         >
-          <Text fontSize="4xl" fontFamily="Work sans">
-            Shubham Chepe
+          <Text
+            fontSize={{ base: "5xl", md: "4xl" }}
+            fontFamily="Anton"
+            color={{ base: "#fff", md: "#000" }}
+          >
+            ONBVN
           </Text>
-        </Box>
-        <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-          <Tabs isFitted variant="soft-rounded">
+          <Tabs
+            isFitted
+            variant="soft-rounded"
+            w="100%"
+            mt="15px"
+          >
             <TabList mb="1em">
-              <Tab>Login</Tab>
-              <Tab>Sign Up</Tab>
+              <Tab color={{ base: "#fff", md: "#000" }}>Login</Tab>
+              <Tab color={{ base: "#fff", md: "#000" }}>Sign Up</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -83,7 +80,7 @@ function Homepage() {
           </Tabs>
         </Box>
       </Container>
-    </Container>
+    </>
   );
 }
 

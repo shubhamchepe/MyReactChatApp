@@ -4,6 +4,7 @@ import Chatbox from "../components/Chatbox";
 import MyChats from "../components/MyChats";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
 import { ChatState } from "../Context/ChatProvider";
+import { Global, css } from "@emotion/react";
 
 
 const Chatpage = () => {
@@ -11,6 +12,18 @@ const Chatpage = () => {
   const { user } = ChatState();
 
   return (
+     <>
+      <Global
+        styles={css`
+          html {
+            overflow: hidden;
+          }
+          body {
+            overflow: hidden;
+            height: 100vh;
+          }
+        `}
+      />
     <div style={{ width: "100%" }} >
       {user && <SideDrawer />}
       <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px" >
@@ -19,7 +32,8 @@ const Chatpage = () => {
           <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         )}
       </Box>
-    </div>
+      </div>
+      </>
   );
 };
 
