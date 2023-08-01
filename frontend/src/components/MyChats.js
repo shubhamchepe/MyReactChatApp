@@ -6,15 +6,17 @@ import { useEffect, useState } from "react";
 import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
-import { Button, IconButton } from "@chakra-ui/react";
+import { Button, IconButton,Image,Flex } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  console.log(chats)
 
   const toast = useToast();
+
 
   const fetchChats = async () => {
     // console.log(user._id);
@@ -99,24 +101,43 @@ const MyChats = ({ fetchAgain }) => {
                 cursor="pointer"
                 bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
                 color={selectedChat === chat ? "white" : "black"}
+                display="flex" // Use display="flex" instead of flexDirection="row"
+                alignItems="center"
+                al
                 px={3}
                 py={2}
                 borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+                <Box flexDirection="column">
+                  <Image
+                    borderRadius="full"
+                    boxSize="30px"
+                    marginRight={2}
+                    src={
+                      chat.users[0].pic !== user.pic
+                        ? chat.users[0].pic
+                        : chat.users[1].pic
+                    }
+                    alt={user.name}
+                  />
+                </Box>
+                <Box flexDirection="column">
+                  <Text isTruncated maxWidth="200px">
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
+
+                  {chat.latestMessage && (
+                    <Text fontSize="xs" isTruncated maxWidth="200px">
+                      <b>{chat.latestMessage.sender.name} : </b>
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </Box>
               </Box>
             ))}
           </Stack>
