@@ -41,7 +41,7 @@ function Homepage() {
       />
       <Container maxW="10xl" centerContent>
         <Box
-          d="flex"
+          display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
