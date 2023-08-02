@@ -6,9 +6,10 @@ import { useEffect } from "react";
 import { messaging } from "./firebase";
 import { getToken } from "firebase/messaging";
 
+
 function App() {
   const userPermission = async () => {
-    const permission = await Notification.requestPermission();
+    const permission = await window.Notification.requestPermission();
     if (permission === "granted") {
       const token = await getToken(messaging, {
         vapidKey: process.env.WEB_PUSH_CERTIFICATE,
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <Route path="/" component={Homepage} exact />
       <Route path="/chats" component={Chatpage} />
     </div>
