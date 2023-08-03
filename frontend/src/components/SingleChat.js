@@ -11,7 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-import addNotification from "react-push-notification";
+import push from "push.js"; 
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -129,12 +129,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          addNotification({
-            title: newMessageRecieved.sender.name,
-            subtitle: "This is a subtitle",
-            message: "This is a very long message",
-            theme: "darkblue",
-            native: true, // when using native, your OS will handle theming.
+          push.create(newMessageRecieved.sender.name, {
+            body: "sent you a message",
+            icon: newMessageRecieved.sender.pic,
+            timeout: 4000
           });
           // new window.Notification(newMessageRecieved.sender.name, {
           //   body: "Sent you message",

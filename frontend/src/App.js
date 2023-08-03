@@ -5,6 +5,7 @@ import Chatpage from "./Pages/Chatpage";
 import { useEffect } from "react";
 import { messaging } from "./firebase";
 import { getToken } from "firebase/messaging";
+import push from "push.js"; 
 
 
 function App() {
@@ -19,16 +20,17 @@ function App() {
   //     alert("Notofication Denied!");
   //   }
   // };
+  const onGranted = () => {
+    console.log('granted')
+  }
+
+  const onDenied = () => {
+    console.log("denied");
+  }
 
   useEffect(() => {
-    navigator.serviceWorker.register("./serviceWorker.js");
-    Notification.requestPermission(function (result) {
-      if (result === "granted") {
-        navigator.serviceWorker.ready.then(function (registration) {
-          registration.showNotification("Notification with ServiceWorker");
-        });
-      }
-    });
+    push.Permission.request(onGranted, onDenied);
+    
   }, []);
 
   return (
