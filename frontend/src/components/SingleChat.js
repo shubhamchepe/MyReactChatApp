@@ -129,11 +129,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          push.create(newMessageRecieved.sender.name, {
-            body: "sent you a message",
-            icon: newMessageRecieved.sender.pic,
-            timeout: 4000
-          });
+          
           // new window.Notification(newMessageRecieved.sender.name, {
           //   body: "Sent you message",
           //   icon: newMessageRecieved.sender.pic
@@ -144,6 +140,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
+        push.create(newMessageRecieved.sender.name, {
+          body: "sent you a message",
+          icon: newMessageRecieved.sender.pic,
+          timeout: 4000,
+        });
       }
     });
   });
