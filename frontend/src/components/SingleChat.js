@@ -129,11 +129,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-       
-          // new window.Notification(newMessageRecieved.sender.name, {
-          //   body: "Sent you message",
-          //   icon: newMessageRecieved.sender.pic
-          // });
           console.log("Latest Notf",newMessageRecieved.sender);
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
