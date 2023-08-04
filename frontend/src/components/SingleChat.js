@@ -11,7 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-
+import push from "push.js"; 
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -92,6 +92,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+           push.create("Notification Testing", {
+             body: "sent you a message",
+             timeout: 4000,
+           });
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -129,6 +133,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
+       
+          // new window.Notification(newMessageRecieved.sender.name, {
+          //   body: "Sent you message",
+          //   icon: newMessageRecieved.sender.pic
+          // });
           console.log("Latest Notf",newMessageRecieved.sender);
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
