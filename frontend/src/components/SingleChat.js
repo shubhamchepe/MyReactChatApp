@@ -92,10 +92,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
-           push.create("Notification Testing", {
-             body: "sent you a message",
-             timeout: 4000,
-           });
       } catch (error) {
         toast({
           title: "Error Occured!",
