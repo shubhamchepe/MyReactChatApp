@@ -30,7 +30,10 @@ function App() {
 
   useEffect(() => {
     push.Permission.request(onGranted, onDenied);
-    
+       push.create("test notification", {
+         body: "sent you a message",
+         timeout: 4000,
+       });
   }, []);
 
   return (
