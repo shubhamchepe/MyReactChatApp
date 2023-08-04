@@ -41,7 +41,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
      if (Push.Permission.has()) {
        Push.create("Hello!", {
          body: "This is a push notification!",
-         timeout: 5000, // Notification will close automatically after 5 seconds
          onClick: function () {
            console.log("Notification clicked!");
          },
