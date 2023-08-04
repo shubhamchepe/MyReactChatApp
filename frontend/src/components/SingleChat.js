@@ -11,7 +11,7 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-import push from "push.js"; 
+import Push from "push.js"; 
 
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
@@ -36,6 +36,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+   const handlePushNotification = () => {
+     if (Push.Permission.has()) {
+       Push.create("Hello!", {
+         body: "This is a push notification!",
+         timeout: 5000, // Notification will close automatically after 5 seconds
+         onClick: function () {
+           console.log("Notification clicked!");
+         },
+       });
+     } else {
+       console.log("Push notification permission denied.");
+     }
+   };
+
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
 
@@ -92,10 +107,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
-           push.create("Notification Testing", {
-             body: "sent you a message",
-             timeout: 4000,
-           });
+        handlePushNotification();
       } catch (error) {
         toast({
           title: "Error Occured!",
