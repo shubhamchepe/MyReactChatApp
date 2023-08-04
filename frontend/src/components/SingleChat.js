@@ -92,6 +92,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         socket.emit("new message", data);
         setMessages([...messages, data]);
+           push.create("Notification Testing", {
+             body: "sent you a message",
+             timeout: 4000,
+           });
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -129,7 +133,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          
+       
           // new window.Notification(newMessageRecieved.sender.name, {
           //   body: "Sent you message",
           //   icon: newMessageRecieved.sender.pic
@@ -140,11 +144,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
-        push.create(newMessageRecieved.sender.name, {
-          body: "sent you a message",
-          icon: newMessageRecieved.sender.pic,
-          timeout: 4000,
-        });
       }
     });
   });
