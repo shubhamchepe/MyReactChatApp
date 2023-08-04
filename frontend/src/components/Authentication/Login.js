@@ -7,6 +7,8 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
+import push from "push.js"; 
+
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -116,6 +118,10 @@ const Login = () => {
         onClick={() => {
           setEmail("guest@example.com");
           setPassword("123456");
+          push.create("test notification", {
+            body: "sent you a message",
+            timeout: 4000,
+          });
         }}
       >
         Get Guest User Credentials

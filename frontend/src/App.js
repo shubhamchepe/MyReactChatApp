@@ -33,10 +33,6 @@ function App() {
 
   useEffect(() => {
     push.Permission.request(onGranted, onDenied);
-       push.create("test notification", {
-         body: "sent you a message",
-         timeout: 4000,
-       });
   }, []);
 
   return (
@@ -48,23 +44,6 @@ function App() {
   );
 }
 
-function urlBase64ToUint8Array(base64String) {
-  try {
-    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding)
-      .replace(/\-/g, "+")
-      .replace(/_/g, "/");
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
 
-    for (let i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-  } catch (error) {
-    console.error("Error converting VAPID public key to Uint8Array:", error);
-    return null;
-  }
-}
 
 export default App;
