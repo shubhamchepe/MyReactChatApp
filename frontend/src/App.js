@@ -21,7 +21,10 @@ function App() {
   //   }
   // };
   const onGranted = () => {
-    console.log('granted')
+      push.create("test notification", {
+        body: "sent you a message",
+        timeout: 4000,
+      });
   }
 
   const onDenied = () => {
