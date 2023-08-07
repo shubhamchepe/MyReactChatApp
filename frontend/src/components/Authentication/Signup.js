@@ -4,8 +4,11 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
+import { imageDb } from "../../firebase-config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { v4 } from "uuid";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -84,7 +87,8 @@ const Signup = () => {
     }
   };
 
-  const postDetails = (pics) => {
+  const postDetails = async (pics) => {
+    
     setPicLoading(true);
     if (pics === undefined) {
       toast({
@@ -102,20 +106,30 @@ const Signup = () => {
       data.append("file", pics);
       data.append("upload_preset", "chat-app");
       data.append("cloud_name", "dictpfcx5");
-      fetch("https://api.cloudinary.com/v1_1/dictpfcx5", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-          console.log(data.url.toString());
+      const imageRef = ref(imageDb, `ProfilePics/${v4()}`);
+      uploadBytes(imageRef, pics).then(async(response) => {
+        const DownloadUrl = await getDownloadURL(imageRef);
+        console.log(DownloadUrl);
+        setPic(DownloadUrl);
+        setPicLoading(false);
+      }).catch((err) => {
+           console.log(err);
           setPicLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setPicLoading(false);
-        });
+         });
+      // fetch("https://api.cloudinary.com/v1_1/dictpfcx5", {
+      //   method: "post",
+      //   body: data,
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     setPic(data.url.toString());
+      //     console.log(data.url.toString());
+      //     setPicLoading(false);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     setPicLoading(false);
+      //   });
     } else {
       toast({
         title: "Please Select an Image!",

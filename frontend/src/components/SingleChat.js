@@ -46,7 +46,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
          },
        });
      } else {
-       console.log("Push notification permission denied.");
+        Push.create("Hello!", {
+          body: "This is a push notification!",
+          onClick: function () {
+            console.log("Notification clicked!");
+          },
+        });
      }
    };
 
